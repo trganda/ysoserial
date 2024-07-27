@@ -22,8 +22,8 @@
 				<version>3.5.1</version>
 				<configuration>
 					<!-- maximize compatibility -->
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>8</source>
+					<target>8</target>
 					<!-- ignore noisy internal api warnings -->
 					<compilerArgument>-XDignore.symbol.file</compilerArgument>
 					<fork>true</fork>
@@ -40,7 +40,7 @@
 						</manifest>
 					</archive>
 					<descriptors>
-						<descriptor>assembly.xml</descriptor>						
+						<descriptor>assembly.xml</descriptor>
 					</descriptors>
 				</configuration>
 				<executions>
@@ -72,7 +72,7 @@
 			<id>central</id>
 			<layout>default</layout>
 			<url>https://repo.maven.apache.org/maven2/</url>
-		</repository>		
+		</repository>
 		<repository>
 			<id>ysoserial-m2-repo</id>
 			<layout>default</layout>
@@ -113,7 +113,6 @@
 			<version>2.2.0</version>
 			<scope>test</scope>
 		</dependency>
-
 
 		<!-- non-gadget dependencies -->
 
@@ -348,6 +347,11 @@
 			<artifactId>click-nodeps</artifactId>
 			<version>2.3.0</version>
 		</dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.13.8</version>
+        </dependency>
 	</dependencies>
 
 	<profiles>
@@ -456,5 +460,5 @@
 			<name>GitHub Packages</name>
 			<url>https://maven.pkg.github.com/frohoff/ysoserial</url>
 		</repository>
-	</distributionManagement>	
+	</distributionManagement>
 </project>
