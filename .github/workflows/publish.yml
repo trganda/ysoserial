@@ -1,4 +1,4 @@
-name: publish jar
+name: Build and Release Jar
 on:
   push:
     tags:
