@@ -3,7 +3,7 @@ package ysoserial.test.payloads;
 import org.junit.Test;
 
 import java.io.*;
-import java.lang.invoke.SerializedLambda;
+import java.lang.invoke.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Function;
@@ -52,5 +52,52 @@ public class ScalaPropertiesTest {
         Method writeReplace = deserializedFunction.getClass().getDeclaredMethod("writeReplace");
         writeReplace.setAccessible(true);
         return (SerializedLambda) writeReplace.invoke(deserializedFunction);
+    }
+
+    public void lambdaTest() throws NoSuchMethodException, IllegalAccessException, LambdaConversionException, InvocationTargetException {
+        // 目标 Lambda 表达式
+        Runnable lambda = () -> System.out.println("Hello, Lambda!");
+
+        // 反射获取 Lambda 表达式的方法句柄
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodType factoryType = MethodType.methodType(Runnable.class);
+        MethodType lambdaType = MethodType.methodType(void.class);
+        MethodHandle targetHandle = lookup.findStatic(ScalaPropertiesTest.class, "lambda$lambdaTest$0", lambdaType);
+
+        // 使用 LambdaMetafactory 创建 CallSite
+        CallSite callSite = LambdaMetafactory.metafactory(
+            lookup,
+            "run",
+            factoryType,
+            lambdaType,
+            targetHandle,
+            lambdaType
+        );
+
+        // 反射获取捕获类
+        Class<?> capturingClass = lambda.getClass();
+
+        // 构造 SerializedLambda 对象
+        SerializedLambda serializedLambda = new SerializedLambda(
+            capturingClass,
+            "java/lang/Runnable",
+            "run",
+            "()V",
+            MethodHandleInfo.REF_invokeStatic,
+            "SerializedLambdaExample",
+            "lambda$lambdaTest$0",
+            "()V",
+            "()Lysoserial/test/payloads/ScalaPropertiesTest;",
+            new Object[0]
+        );
+
+        // 打印 SerializedLambda 信息
+        System.out.println(serializedLambda);
+
+        Method readResolve = serializedLambda.getClass().getDeclaredMethod("readResolve");
+        readResolve.setAccessible(true);
+        Object obj = readResolve.invoke(serializedLambda);
+
+        System.out.println(obj);
     }
 }
