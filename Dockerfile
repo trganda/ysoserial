@@ -6,8 +6,6 @@ WORKDIR /app
 COPY pom.xml .
 COPY assembly.xml .
 RUN mvn dependency:resolve
-RUN mvn verify
-RUN mvn compiler:help
 
 # build
 COPY src ./src
