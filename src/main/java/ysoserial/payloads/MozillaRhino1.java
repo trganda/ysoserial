@@ -43,6 +43,7 @@ public class MozillaRhino1 implements ObjectPayload<Object> {
         NativeJavaMethod nativeJavaMethod = new NativeJavaMethod(newTransformer, "message");
         idScriptableObject.setGetterOrSetter("message", 0, nativeJavaMethod, false);
 
+        // for higher versions of rhino, the first argument's type was changed from String to Object
         Method getSlot = ScriptableObject.class.getDeclaredMethod("getSlot", String.class, int.class, int.class);
         Reflections.setAccessible(getSlot);
         Object slot = getSlot.invoke(idScriptableObject, "name", 0, 1);
